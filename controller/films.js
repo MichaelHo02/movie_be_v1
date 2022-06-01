@@ -3,16 +3,14 @@ import { Film } from '../model/Film.js';
 import { User } from '../model/User.js';
 
 export const addFilm = async (req, res) => {
-	console.log(req.query);
 	const query = req.query;
 	const body = req.body;
 	try {
-		if (await Film.findOne({ id: body.id })) {
-			res.status(200);
-			return;
+		let film = await Film.findOneAndUpdate({ id: body.id }, { ...body });
+		if (!film) {
+			film = new Film({ ...body });
+			await film.save();
 		}
-		const film = new Film({ ...body });
-		await film.save();
 
 		if (query.type === 'like') {
 			const user = await User.findOneAndUpdate(
@@ -25,14 +23,17 @@ export const addFilm = async (req, res) => {
 			}).populate('likes');
 			res.status(200).json(filmList.likes);
 		} else {
+			console.log('first');
 			const user = await User.findOneAndUpdate(
 				{ username: query.name },
 				{ $push: { favorites: film._id } },
 				{ new: true }
 			);
+			console.log('second');
 			const filmList = await User.findOne({
 				username: query.name,
 			}).populate('favorites');
+			console.log('third');
 			res.status(200).json(filmList.favorites);
 		}
 	} catch (error) {
