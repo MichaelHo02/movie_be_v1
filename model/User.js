@@ -8,6 +8,8 @@ const schema = new mongoose.Schema({
 	},
 	email: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
+	likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'films' }],
+	favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'films' }],
 });
 
 export const User = mongoose.model('users', schema);

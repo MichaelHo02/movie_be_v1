@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import users from './routers/users.js';
+import films from './routers/films.js';
 import mongoose from 'mongoose';
 
 const app = express();
@@ -13,6 +14,8 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '30mb' }));
 app.use(cors());
 
 app.use('/users', users);
+
+app.use('/films', films);
 
 app.get('/', (req, res) => {
 	res.send('SUCCESS');
