@@ -2,9 +2,16 @@ import argon2 from 'argon2';
 import { User } from '../model/User.js';
 
 export const getUsers = async (req, res) => {
+	const { username, name } = req.query;
 	try {
-		const users = await User.find();
-		res.status(200).json(users);
+		const users = await User.find({
+			username: { $regex: username, $options: 'i' },
+		}).select('username likes favorites');
+
+		const user = await User.findOne({
+			username: name,
+		}).populate(['friends']);
+		res.status(200).json({ users, friends: user.friends });
 	} catch (err) {
 		res.status(500).json({ err: err });
 	}
@@ -102,6 +109,52 @@ export const login = async (req, res) => {
 				message: 'Internal server error',
 			},
 		});
+	}
+};
+
+export const addFriend = async (req, res) => {
+	const { me, friend } = req.body;
+	try {
+		const meId = await User.findOne({ username: me });
+		const friendId = await User.findOne({ username: friend });
+		await User.findOneAndUpdate(
+			{ username: me },
+			{ $push: { friends: friendId._id } },
+			{ new: true }
+		);
+		await User.findOneAndUpdate(
+			{ username: friend },
+			{ $push: { friends: meId._id } }
+		);
+		const user = await User.findOne({
+			username: me,
+		}).populate(['friends']);
+		res.status(200).json(user.friends);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+export const removeFriend = async (req, res) => {
+	const { me, friend } = req.body;
+	try {
+		const meId = await User.findOne({ username: me });
+		const friendId = await User.findOne({ username: friend });
+		await User.findOneAndUpdate(
+			{ username: me },
+			{ $pullAll: { friends: [friendId._id] } },
+			{ new: true }
+		);
+		await User.findOneAndUpdate(
+			{ username: friend },
+			{ $pullAll: { friends: [meId._id] } }
+		);
+		const user = await User.findOne({
+			username: me,
+		}).populate(['friends']);
+		res.status(200).json(user.friends);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
 	}
 };
 

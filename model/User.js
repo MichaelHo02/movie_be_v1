@@ -10,6 +10,7 @@ const schema = new mongoose.Schema({
 	password: { type: String, required: true },
 	likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'films' }],
 	favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'films' }],
+	friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
 });
 
 export const User = mongoose.model('users', schema);
