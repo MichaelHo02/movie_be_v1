@@ -8,12 +8,14 @@ const schema = new mongoose.Schema({
 	id: { type: Number, required: true },
 	languages: [{ type: String }],
 	name: { type: String, required: true },
-	origin_country: { type: Array },
+	country: { type: Array },
 	popularity: { type: Number },
 	poster_path: { type: String },
 	vote_average: { type: Number },
 	vote_count: { type: Number },
 	overview: { type: String },
+	date: { type: String },
+	variant: { type: String },
 });
 
 export const Film = mongoose.model('films', schema);

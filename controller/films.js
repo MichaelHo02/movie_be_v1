@@ -42,7 +42,9 @@ export const addFilm = async (req, res) => {
 };
 
 export const fetchLikesAndFavorites = async (req, res) => {
+	console.log('first');
 	const { name } = req.query;
+	console.log(name);
 	try {
 		const filmList = await User.findOne({
 			username: name,
