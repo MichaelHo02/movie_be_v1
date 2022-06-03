@@ -157,18 +157,3 @@ export const removeFriend = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
-
-// export const updateUser = async (req, res) => {
-// 	try {
-// 		const updateUser = req.body;
-
-// 		const user = await User.findOneAndUpdate(
-// 			{ _id: updateUser._id },
-// 			updateUser,
-// 			{ new: true }
-// 		);
-// 		res.status(200).json(user);
-// 	} catch (err) {
-// 		res.status(500).json({ err: err });
-// 	}
-// };

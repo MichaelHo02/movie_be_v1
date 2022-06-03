@@ -1,10 +1,10 @@
-import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import express from 'express';
 
-import users from './routers/users.js';
-import films from './routers/films.js';
 import mongoose from 'mongoose';
+import films from './routers/films.js';
+import users from './routers/users.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;

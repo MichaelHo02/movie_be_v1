@@ -1,9 +1,9 @@
 import express from 'express';
 import {
+	addFriend,
 	getUsers,
 	login,
 	register,
-	addFriend,
 	removeFriend,
 } from '../controller/users.js';
 

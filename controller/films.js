@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import { Film } from '../model/Film.js';
 import { User } from '../model/User.js';
 
