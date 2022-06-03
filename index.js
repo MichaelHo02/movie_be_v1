@@ -7,7 +7,7 @@ import films from './routers/films.js';
 import mongoose from 'mongoose';
 
 const app = express();
-const PORT = process.env.port || 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.json({ limit: '30mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '30mb' }));
